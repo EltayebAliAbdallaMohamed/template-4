@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Simple vs. Past Perfect Exercise</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .exercise-container {
+            max-width: 700px;
+            margin: auto;
+            padding: 10px;
+            line-height: 1.6; /* Increased line height for better spacing */
+        }
+
+        .gap {
+            display: inline-block;
+            margin: 0 5px;
+            font-weight: bold;
+            border-bottom: 1px solid black; /* Underline for the gap */
+            font-family: monospace; /* Use monospace for uniformity */
+        }
+
+        .options {
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        .controls {
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        #speakBtn {
+            display: none; /* Hide speak button initially */
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h4>Past Simple vs. Past Perfect</h4>
+
+    <div class="exercise-container">
+        <p id="fullText">
+            Last week, I finally <span class="gap" id="gap1">____</span> (see) how important it is to plan ahead. 
+            When I <span class="gap" id="gap2">____</span> (forget) my best friend's birthday, I felt terrible. 
+            I <span class="gap" id="gap3">____</span> (not think) it would make her so upset. By the time I 
+            <span class="gap" id="gap4">____</span> (remember) to call her, she 
+            <span class="gap" id="gap5">____</span> (already celebrate) with her family and friends. 
+            After that experience, I <span class="gap" id="gap6">____</span> (decide) to make a calendar to 
+            keep track of important dates.
+        </p>
+
+        <div class="options">
+            <select id="options1" data-gap="gap1">
+                <option value="">Select</option>
+                <option value="saw">saw</option>
+                <option value="had seen">had seen</option>
+            </select>
+
+            <select id="options2" data-gap="gap2">
+                <option value="">Select</option>
+                <option value="forgot">forgot</option>
+                <option value="had forgotten">had forgotten</option>
+            </select>
+
+            <select id="options3" data-gap="gap3">
+                <option value="">Select</option>
+                <option value="didn't think">didn't think</option>
+                <option value="hadn't thought">hadn't thought</option>
+            </select>
+
+            <select id="options4" data-gap="gap4">
+                <option value="">Select</option>
+                <option value="remembered">remembered</option>
+                <option value="had remembered">had remembered</option>
+            </select>
+
+            <select id="options5" data-gap="gap5">
+                <option value="">Select</option>
+                <option value="celebrated">celebrated</option>
+                <option value="had already celebrated">had already celebrated</option>
+            </select>
+
+            <select id="options6" data-gap="gap6">
+                <option value="">Select</option>
+                <option value="decided">decided</option>
+                <option value="had decided">had decided</option>
+            </select>
+        </div>
+
+        <div class="controls">
+            <button id="checkBtn">Check Answers</button>
+            <button id="resetBtn">Reset</button>
+            <button id="speakBtn">Speak Text</button> <!-- Speak button -->
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <footer>
+        Created by: Eltayeb Ali Abdalla Mohamed &copy; King Saud University - 2026
+    </footer>
+
+    <script>
+        const answers = [
+            "saw",
+            "had forgotten",
+            "didn't think",
+            "had remembered",
+            "had already celebrated",
+            "decided"
+        ];
+
+        const options = [
+            ["saw", "had seen"],
+            ["forgot", "had forgotten"],
+            ["didn't think", "hadn't thought"],
+            ["remembered", "had remembered"],
+            ["celebrated", "had already celebrated"],
+            ["decided", "had decided"]
+        ];
+
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                const selectedAnswer = this.value;
+                const gapId = this.dataset.gap;
+                document.getElementById(gapId).textContent = selectedAnswer;
+
+                // Check if all gaps are filled
+                checkIfAllFilled();
+            });
+        });
+
+        document.getElementById('checkBtn').addEventListener('click', () => {
+            let correctCount = 0;
+
+            // Resetting colors before checking
+            for (let i = 0; i < answers.length; i++) {
+                const gapElement = document.getElementById(`gap${i + 1}`);
+                gapElement.style.color = ""; // Reset color to default
+            }
+
+            for (let i = 0; i < answers.length; i++) {
+                let selectedAnswer = document.getElementById(`options${i + 1}`).value;
+                if (selectedAnswer === answers[i]) {
+                    correctCount++;
+                } else {
+                    document.getElementById(`gap${i + 1}`).style.color = "red"; // Mark incorrect with red
+                }
+            }
+            document.getElementById('result').textContent = 
+                `You got ${correctCount} out of ${answers.length} correct!`;
+                
+            // Check if all gaps are filled after checking
+            checkIfAllFilled();
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            for (let i = 0; i < answers.length; i++) {
+                document.getElementById(`gap${i + 1}`).textContent = "____"; // Reset to the line
+                document.getElementById(`gap${i + 1}`).style.color = ""; // Reset color
+                document.getElementById(`options${i + 1}`).value = "";
+            }
+            document.getElementById('result').textContent = "";
+            document.getElementById('speakBtn').style.display = 'none'; // Hide speak button
+        });
+
+        document.getElementById('speakBtn').addEventListener('click', () => {
+            const completeText = `
+                Last week, I finally ${document.getElementById('gap1').textContent} how important it is to plan ahead. 
+                When I ${document.getElementById('gap2').textContent} my best friend's birthday, I felt terrible. 
+                I ${document.getElementById('gap3').textContent} it would make her so upset. By the time I 
+                ${document.getElementById('gap4').textContent} to call her, she 
+                ${document.getElementById('gap5').textContent} with her family and friends. 
+                After that experience, I ${document.getElementById('gap6').textContent} to make a calendar to 
+                keep track of important dates.
+            `;
+
+            const utterance = new SpeechSynthesisUtterance(completeText);
+            window.speechSynthesis.speak(utterance);
+        });
+
+        function checkIfAllFilled() {
+            const allFilled = Array.from(document.querySelectorAll('.gap')).every(gap => gap.textContent.trim() !== "____");
+            document.getElementById('speakBtn').style.display = allFilled ? 'inline-block' : 'none';
+        }
+
+        function adjustGapWidths() {
+            const gaps = document.querySelectorAll('.gap');
+            gaps.forEach((gap, index) => {
+                const maxWidth = Math.max(...options[index].map(option => option.length));
+                const gapWidth = maxWidth * 10; // 10px per character as a rough estimate
+                gap.style.width = gapWidth + 'px';
+            });
+        }
+
+        // Adjust gap widths on load and on window resize
+        window.onload = adjustGapWidths;
+        window.onresize = adjustGapWidths; // Adjust on resize for responsiveness
+    </script>
+
+</body>
+</html>
