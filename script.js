@@ -49,9 +49,9 @@ const speakingIndicator = document.getElementById("speakingIndicator");
 const lessonFileSelect = document.getElementById("lessonFileSelect");
 
 const lessonFiles = [
-  "Q3eSE_RW0_U01_QClassroom.json",
+ 
   "Q3eSE_RW0_U01_QClassroom1.json",
-  "Q3eSE_RW0_U01_QClassroom2.json"
+
 ];
 
 const defaultLessonFile = lessonFiles[0];
